@@ -4,14 +4,38 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Youneed — Internet Rural Mérida</title>
-<link rel="icon" type="image/jpeg" href="img/logo.jpg">
+<meta name="description" content="Youneed: internet rural en La Azulita y todo el municipio Andrés Bello, Mérida. Planes de 20, 50 y 100 Mbps, instalación incluida y soporte técnico local.">
+<meta name="theme-color" content="#1147e8">
+<link rel="canonical" href="https://youneed.com.ve/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_VE">
+<meta property="og:site_name" content="Youneed">
+<meta property="og:title" content="Youneed — Internet Rural en Mérida">
+<meta property="og:description" content="Internet estable en La Azulita y todo el municipio Andrés Bello. Planes de 20 a 100 Mbps. Verifica tu cobertura y solicita por WhatsApp.">
+<meta property="og:url" content="https://youneed.com.ve/">
+<meta property="og:image" content="https://youneed.com.ve/img/hero-1.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="img/logo.png">
+<link rel="apple-touch-icon" href="img/logo.png">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" integrity="sha256-YU3qCpj/P06tdPBJGPax0bm6Q1wltfwjsho5TR4+TYc=" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--azul:#1147e8;--azul-dark:#0a2d9c;--azul-light:#e8f0fe;--texto:#0a0f1e;--gris:#6b7280;--gris-claro:#f0f4ff;--blanco:#fff;--verde:#22c55e;--sombra:0 4px 24px rgba(17,71,232,.10)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+.cmodal{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;background:rgba(4,12,45,.55);backdrop-filter:blur(4px);padding:16px}
+.cmodal.open{display:flex}
+.cmodal-box{background:#fff;border-radius:20px;padding:1.8rem;width:100%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,.25);position:relative;text-align:center}
+.cmodal-box h3{font-size:1.25rem;font-weight:800;margin-bottom:.3rem}
+.cmodal-box p{font-size:.86rem;color:var(--gris);margin-bottom:1.3rem}
+.cmodal-x{position:absolute;top:10px;right:12px;background:none;border:none;font-size:1.5rem;line-height:1;color:var(--gris);cursor:pointer;padding:4px 8px}
+.cmodal-btn{display:flex;align-items:center;justify-content:center;gap:.6rem;width:100%;padding:.95rem;border-radius:12px;text-decoration:none;font-weight:700;font-size:.95rem;color:#fff;margin-bottom:.7rem;transition:transform .2s}
+.cmodal-btn:hover{transform:translateY(-2px)}
+.cmodal-btn.wa{background:#25D366}
+.cmodal-btn.ig{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)}
+.crow a{color:inherit;text-decoration:none}
+.crow a:hover strong{color:var(--azul)}
 body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--texto);background:var(--blanco);overflow-x:hidden}
 header{position:fixed;top:0;left:0;right:0;z-index:300;padding:.9rem 3.5rem;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-bottom:1px solid rgba(17,71,232,.08);box-shadow:0 2px 16px rgba(17,71,232,.06)}
 .logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none}
@@ -33,7 +57,7 @@ nav a:hover{color:var(--azul)}
 .hero-slider{position:relative;width:100%;height:100vh;min-height:580px;overflow:hidden}
 .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease}
 .slide.active{opacity:1}
-.slide-bg{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.06);transition:transform 8s ease}
+.slide-bg{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.06);transition:transform 15s ease}
 .slide.active .slide-bg{transform:scale(1)}
 .slide-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(4,12,45,.82) 42%,rgba(4,12,45,.28) 100%)}
 .slide-content{position:absolute;inset:0;display:flex;align-items:center;padding:0 4rem;padding-top:5rem}
@@ -219,14 +243,14 @@ footer a{color:#93c5fd;text-decoration:none}
 
 <header>
   <a href="#inicio" class="logo-wrap">
-    <img src="img/logo.jpg" alt="Youneed" style="height:42px;width:auto;object-fit:contain;">
+    <img src="img/logo.png" alt="Youneed" style="height:42px;width:auto;object-fit:contain;">
     <span class="logo-txt">YOU<span>NEED</span></span>
   </a>
   <nav>
     <a href="#servicios">Servicios</a>
     <a href="#cobertura">Cobertura</a>
     <a href="#planes">Planes</a>
-    <a href="#contacto">Contacto</a>
+    <a href="#" onclick="abrirContacto(event)">Contacto</a>
     <a href="proximamente.html" class="nav-login">Mi cuenta</a>
     <a href="#contacto" class="nav-cta">Solicitar →</a>
   </nav>
@@ -237,7 +261,7 @@ footer a{color:#93c5fd;text-decoration:none}
   <a href="#servicios" onclick="closeMenu()">Servicios</a>
   <a href="#cobertura" onclick="closeMenu()">Cobertura</a>
   <a href="#planes" onclick="closeMenu()">Planes</a>
-  <a href="#contacto" onclick="closeMenu()">Contacto</a>
+  <a href="#" onclick="closeMenu();abrirContacto(event)">Contacto</a>
   <a href="proximamente.html" onclick="closeMenu()">Mi cuenta</a>
 </div>
 
@@ -443,8 +467,8 @@ footer a{color:#93c5fd;text-decoration:none}
       <div class="tag">Conéctate hoy</div>
       <h2 class="sec-title">Solicita tu<br>servicio ahora</h2>
       <p>Llena el formulario y te contactamos para verificar cobertura en tu zona. Rápido y sin compromiso.</p>
-      <div class="crow"><div class="cico">📱</div><span><strong>0416-2779366</strong> — WhatsApp</span></div>
-      <div class="crow"><div class="cico">📸</div><span><strong>@Youneed_ve</strong> — Instagram</span></div>
+      <div class="crow"><div class="cico">📱</div><a href="https://wa.me/584162779366" target="_blank" rel="noopener"><strong>0416-2779366</strong> — WhatsApp</a></div>
+      <div class="crow"><div class="cico">📸</div><a href="https://www.instagram.com/youneed_ve/" target="_blank" rel="noopener"><strong>@Youneed_ve</strong> — Instagram</a></div>
       <div class="crow"><div class="cico">📍</div><span>La Azulita, Mérida, Venezuela</span></div>
     </div>
     <div class="form-card reveal">
@@ -461,10 +485,15 @@ footer a{color:#93c5fd;text-decoration:none}
           <button class="btn-gps" onclick="capturarGPS()" id="btn-gps">📍 Mi ubicación</button>
         </div>
       </div>
+      <label id="acepto-wrap" style="display:flex;gap:.6rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:500;font-size:.8rem;color:var(--gris);line-height:1.5;margin:.4rem 0 .9rem;cursor:pointer">
+        <input type="checkbox" id="acepto" onchange="document.getElementById('acepto-wrap').style.color=''" style="width:18px;height:18px;flex-shrink:0;margin-top:2px;padding:0;accent-color:#1147e8;cursor:pointer">
+        <span>He leído y acepto la <a href="privacidad.html" target="_blank" style="color:var(--azul)">Política de privacidad</a> y los <a href="terminos.html" target="_blank" style="color:var(--azul)">Términos y condiciones</a>.</span>
+      </label>
       <button class="btn-wa" onclick="enviarWhatsApp()">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         Enviar por WhatsApp
       </button>
+
     </div>
   </div>
 </div>
@@ -472,7 +501,7 @@ footer a{color:#93c5fd;text-decoration:none}
 <footer>
   <div>
     <div class="foot-logo">YOU<span>NEED</span></div>
-    <p>Youneed Communication — Internet Rural, Estado Mérida</p>
+    <p>© 2026 Youneed Communication, C.A. — Internet Rural, Estado Mérida</p>
     <p style="margin-top:.4rem">📱 0416-2779366 &nbsp;|&nbsp; @Youneed_ve</p>
     <p style="margin-top:.8rem;font-size:.76rem">Desarrollado por <a href="https://wa.me/584247080082" target="_blank" rel="noopener">Josedaniel</a> · 2026</p>
   </div>
@@ -481,10 +510,22 @@ footer a{color:#93c5fd;text-decoration:none}
     <a href="#servicios">Servicios</a>
     <a href="#cobertura">Cobertura</a>
     <a href="#planes">Planes</a>
-    <a href="#contacto">Contacto</a>
+    <a href="#" onclick="abrirContacto(event)">Contacto</a>
     <a href="proximamente.html">Mi cuenta</a>
+    <a href="privacidad.html">Política de privacidad</a>
+    <a href="terminos.html">Términos y condiciones</a>
   </div>
 </footer>
+
+<div class="cmodal" id="cmodal" onclick="if(event.target===this)cerrarContacto()" role="dialog" aria-modal="true" aria-labelledby="cmodal-titulo">
+  <div class="cmodal-box">
+    <button class="cmodal-x" onclick="cerrarContacto()" aria-label="Cerrar">&times;</button>
+    <h3 id="cmodal-titulo">Contáctanos</h3>
+    <p>Escríbenos por donde prefieras</p>
+    <a class="cmodal-btn wa" href="https://wa.me/584162779366" target="_blank" rel="noopener">💬 WhatsApp · 0416-2779366</a>
+    <a class="cmodal-btn ig" href="https://www.instagram.com/youneed_ve/" target="_blank" rel="noopener">📸 Instagram · @Youneed_ve</a>
+  </div>
+</div>
 
 <a href="https://wa.me/584162779366" target="_blank" rel="noopener" class="wa-float" aria-label="WhatsApp">
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -500,11 +541,11 @@ function goToSlide(i){
   cur=(i+total)%total;
   document.getElementById('slide-'+cur).classList.add('active');
   document.querySelectorAll('.dot')[cur].classList.add('active');
-  clearInterval(timer);timer=setInterval(nextSlide,5000);
+  clearInterval(timer);timer=setInterval(nextSlide,15000);
 }
 function nextSlide(){goToSlide(cur+1)}
 function prevSlide(){goToSlide(cur-1)}
-timer=setInterval(nextSlide,5000);
+timer=setInterval(nextSlide,15000);
 
 // Contorno del Municipio Andrés Bello (OpenStreetMap, relación 3448252), simplificado. Coordenadas [lng, lat].
 const MUNICIPIO_GEOJSON={"type":"Feature","properties":{"name":"Municipio Andrés Bello"},"geometry":{"type":"Polygon","coordinates":[[[-71.5585,8.6311],[-71.5431,8.6245],[-71.5401,8.6199],[-71.5242,8.6178],[-71.5169,8.6226],[-71.5065,8.6227],[-71.5006,8.6249],[-71.4921,8.6234],[-71.4803,8.6309],[-71.4774,8.6305],[-71.4676,8.6224],[-71.4577,8.6229],[-71.4468,8.632],[-71.4401,8.6339],[-71.43,8.627],[-71.4182,8.6279],[-71.4146,8.6301],[-71.4013,8.6083],[-71.3955,8.6136],[-71.3945,8.6184],[-71.3973,8.6346],[-71.3994,8.637],[-71.391,8.6475],[-71.3892,8.6551],[-71.384,8.6613],[-71.3809,8.6621],[-71.3794,8.6671],[-71.3741,8.6644],[-71.3573,8.6644],[-71.3543,8.6616],[-71.3359,8.665],[-71.3294,8.6626],[-71.3244,8.6632],[-71.317,8.6748],[-71.3098,8.6802],[-71.2868,8.6789],[-71.2784,8.6814],[-71.268,8.6742],[-71.2637,8.6736],[-71.2527,8.6828],[-71.2527,8.6919],[-71.2491,8.6988],[-71.2448,8.7014],[-71.2269,8.7051],[-71.2182,8.7175],[-71.2127,8.7219],[-71.2376,8.73],[-71.2464,8.738],[-71.2628,8.7479],[-71.2875,8.76],[-71.2889,8.7646],[-71.3015,8.7671],[-71.3127,8.764],[-71.3262,8.7734],[-71.3348,8.7748],[-71.3531,8.7727],[-71.364,8.7757],[-71.4001,8.7776],[-71.41,8.7739],[-71.4156,8.7796],[-71.4384,8.7859],[-71.4454,8.7914],[-71.4514,8.7998],[-71.4611,8.78],[-71.4857,8.7632],[-71.494,8.7554],[-71.502,8.7303],[-71.5074,8.7222],[-71.509,8.7134],[-71.5146,8.7037],[-71.516,8.687],[-71.5198,8.679],[-71.5223,8.6774],[-71.5185,8.6655],[-71.5206,8.656],[-71.5387,8.6434],[-71.5416,8.6362],[-71.5549,8.634],[-71.5585,8.6311]]]}};
@@ -635,7 +676,7 @@ function initMapa(){
   initLista();
   if(typeof L==='undefined')return;
   mapa=L.map('mapa',{scrollWheelZoom:false,dragging:!L.Browser.mobile,tap:false,zoomControl:!L.Browser.mobile});
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'}).addTo(mapa);
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap contributors'}).addTo(mapa);
   capaMunicipio=L.geoJSON(MUNICIPIO_GEOJSON,{style:{color:'#1147e8',weight:2,fillColor:'#1147e8',fillOpacity:.18}}).addTo(mapa);
   capaMunicipio.bindTooltip('Zona de cobertura — Municipio Andrés Bello',{sticky:true});
   mapa.fitBounds(capaMunicipio.getBounds(),{padding:[10,10]});
@@ -646,7 +687,7 @@ function initMapa(){
     if(!l.coords)return;
     marcadores[clave]=L.marker(l.coords,{icon:l.sector?pinSector:l.fibra?pinFibra:pinAldea,title:l.nombre})
       .bindPopup('📍 <strong>'+(l.etiqueta||l.nombre)+'</strong> — ✅ Cobertura activa'+(l.fibra?'<br>⚡ Fibra óptica disponible':''))
-      .on('click',()=>marcarZona(clave));
+      .on('click',()=>{if(vueloPendiente){mapa.off('moveend',vueloPendiente);vueloPendiente=null}vueloId++;marcarZona(clave)});
     cluster.addLayer(marcadores[clave]);
   });
   mapa.addLayer(cluster);
@@ -672,23 +713,32 @@ function marcarZona(clave){
   }
   setOverlay(l.sector?l.nombre+' · '+aldeas[l.aldea].nombre:l.nombre,!destino(l)?'Escríbenos para confirmar tu sector':l.fibra?'✅ Cobertura activa · ⚡ Fibra óptica':null);
 }
+// Un solo vuelo a la vez: cancela el anterior (y su popup pendiente) antes de empezar uno nuevo.
+let vueloPendiente=null,vueloId=0;
+function volar(mover,alLlegar){
+  if(vueloPendiente){mapa.off('moveend',vueloPendiente);vueloPendiente=null}
+  mapa.closePopup();
+  const id=++vueloId;
+  vueloPendiente=()=>{vueloPendiente=null;if(id===vueloId)alLlegar(id)};
+  mapa.once('moveend',vueloPendiente);
+  mover();
+}
 function irAZona(clave){
   marcarZona(clave);
   if(!mapa)return;
   const l=lugares[clave];
-  mapa.closePopup();
   if(l.coords){
-    mapa.flyTo(l.coords,15,{duration:.8});
-    mapa.once('moveend',()=>{const m=marcadores[clave];if(cluster.zoomToShowLayer)cluster.zoomToShowLayer(m,()=>m.openPopup());else m.openPopup()});
+    volar(()=>mapa.flyTo(l.coords,15,{duration:.8}),id=>{
+      const m=marcadores[clave];
+      if(cluster.zoomToShowLayer)cluster.zoomToShowLayer(m,()=>{if(id===vueloId)m.openPopup()});else m.openPopup();
+    });
   }else if(destino(l)){
     const c=destino(l);
     const titulo=l.sector?l.nombre+' · '+aldeas[l.aldea].nombre:l.nombre;
-    mapa.flyTo(c,l.sector?13:15,{duration:.8});
-    mapa.once('moveend',()=>L.popup().setLatLng(c).setContent('📍 <strong>'+titulo+'</strong> — ✅ Cobertura activa').openOn(mapa));
+    volar(()=>mapa.flyTo(c,l.sector?13:15,{duration:.8}),()=>L.popup().setLatLng(c).setContent('📍 <strong>'+titulo+'</strong> — ✅ Cobertura activa').openOn(mapa));
   }else{
     const b=capaMunicipio.getBounds();
-    mapa.flyToBounds(b,{padding:[10,10],duration:.8});
-    mapa.once('moveend',()=>L.popup().setLatLng(b.getCenter()).setContent('📍 <strong>'+l.nombre+'</strong><br>Escríbenos para confirmar tu sector').openOn(mapa));
+    volar(()=>mapa.flyToBounds(b,{padding:[10,10],duration:.8}),()=>L.popup().setLatLng(b.getCenter()).setContent('📍 <strong>'+l.nombre+'</strong><br>Escríbenos para confirmar tu sector').openOn(mapa));
   }
 }
 function mostrarUbicacionEnMapa(lat,lng){
@@ -700,14 +750,16 @@ function mostrarUbicacionEnMapa(lat,lng){
     if(marcadorGPS)marcadorGPS.setLatLng([lat,lng]);
     else marcadorGPS=L.marker([lat,lng]).addTo(mapa);
     marcadorGPS.bindPopup('<strong>Tu ubicación</strong><br>'+msg);
-    mapa.flyTo([lat,lng],dentro?14:10,{duration:.8});
-    mapa.once('moveend',()=>marcadorGPS.openPopup());
+    volar(()=>mapa.flyTo([lat,lng],dentro?14:10,{duration:.8}),()=>marcadorGPS.openPopup());
   }
   return {dentro,msg};
 }
 initMapa();
 function toggleMenu(){document.getElementById('navMobile').classList.toggle('open')}
 function closeMenu(){document.getElementById('navMobile').classList.remove('open')}
+function abrirContacto(e){if(e)e.preventDefault();document.getElementById('cmodal').classList.add('open')}
+function cerrarContacto(){document.getElementById('cmodal').classList.remove('open')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrarContacto()});
 const obs=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*80)})},{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 const cObs=new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(!entry.isIntersecting)return;const el=entry.target,target=parseInt(el.dataset.count);let c=0;const step=Math.ceil(target/60),suffix=el.dataset.suffix||'';const t=setInterval(()=>{c=Math.min(c+step,target);el.textContent=c+suffix;if(c>=target)clearInterval(t)},22);cObs.unobserve(el)})},{threshold:.5});
@@ -730,10 +782,14 @@ function solicitarPlan(plan){window._plan=plan;document.getElementById('contacto
 function enviarWhatsApp(){
   const nombre=document.getElementById('nombre').value.trim(),telefono=document.getElementById('telefono').value.trim(),direccion=document.getElementById('direccion').value.trim();
   if(!nombre||!telefono){alert('Por favor ingresa tu nombre y teléfono.');return}
+  const acepto=document.getElementById('acepto');
+  if(!acepto.checked){alert('Para continuar, marca la casilla de aceptación de la Política de privacidad y los Términos y condiciones.');document.getElementById('acepto-wrap').style.color='#ef4444';acepto.focus();return}
   const gps=coordsGPS?'https://maps.google.com/?q='+coordsGPS.lat+','+coordsGPS.lng:'No compartida';
   let msg='Nueva solicitud Youneed\n\nNombre: '+nombre+'\nTeléfono: '+telefono+'\nDirección: '+(direccion||'No indicada')+'\nUbicación GPS: '+gps;
   if(coordsGPS)msg+='\nCobertura: '+(coordsGPS.dentro?'dentro del municipio Andrés Bello':'fuera del área, por verificar');
   if(window._plan)msg+='\nPlan: '+window._plan;
+  const ahora=new Date().toLocaleString('es-VE',{timeZone:'America/Caracas',dateStyle:'short',timeStyle:'short'});
+  msg+='\n\n✅ Acepto la Política de privacidad y los Términos y condiciones de Youneed (versión 14/10/2026). Fecha: '+ahora;
   window.open('https://wa.me/584162779366?text='+encodeURIComponent(msg),'_blank');
 }
 </script>
